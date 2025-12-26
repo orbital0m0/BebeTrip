@@ -1,88 +1,109 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiStar, FiMapPin } from 'react-icons/fi';
 import type { Accommodation } from '../types';
-import WishlistButton from './WishlistButton';
+import Badge from './ui/Badge';
 
 interface AccommodationCardProps {
   accommodation: Accommodation & {
     averageRating?: number;
     reviewCount?: number;
     minPrice?: number;
+    isSafeCertified?: boolean;
+    recommendedAge?: string;
+    isBest?: boolean;
+    features?: string[];
   };
 }
 
 const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsBookmarked(!isBookmarked);
+  };
+
   return (
     <Link
       to={`/accommodations/${accommodation.id}`}
-      className="block bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden"
+      className="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
     >
       {/* Image */}
-      <div className="relative h-48 bg-gray-200">
+      <div className="relative aspect-[4/3] overflow-hidden">
         {accommodation.thumbnailImage ? (
           <img
             src={accommodation.thumbnailImage}
             alt={accommodation.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
+          <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400">
             No Image
           </div>
         )}
 
-        {/* Wishlist Button */}
-        <div className="absolute top-3 right-3">
-          <WishlistButton accommodationId={accommodation.id} size="sm" />
+        {/* Bookmark Button */}
+        <button
+          onClick={handleBookmarkClick}
+          className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-primary-50 hover:text-primary-500 transition-all duration-200"
+        >
+          {isBookmarked ? '♥' : '♡'}
+        </button>
+
+        {/* Badges */}
+        <div className="absolute bottom-4 left-4 flex gap-2 flex-wrap">
+          {accommodation.isSafeCertified && (
+            <Badge variant="safe">✓ 안전인증</Badge>
+          )}
+          {accommodation.recommendedAge && (
+            <Badge variant="age">{accommodation.recommendedAge}</Badge>
+          )}
+          {accommodation.isBest && (
+            <Badge variant="recommended">🏆 베스트</Badge>
+          )}
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-1">
-          {accommodation.name}
-        </h3>
-
-        <div className="flex items-center text-sm text-gray-600 mb-2">
-          <FiMapPin className="mr-1" />
-          <span>{accommodation.region}</span>
+      <div className="p-6">
+        <div className="flex justify-between items-start mb-3">
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-1">
+              {accommodation.name}
+            </h3>
+            <p className="text-sm text-gray-500 flex items-center gap-1">
+              📍 {accommodation.region}
+            </p>
+          </div>
+          {accommodation.averageRating && accommodation.averageRating > 0 && (
+            <div className="flex items-center gap-1 font-semibold text-gray-900">
+              <span className="text-accent-500">★</span>
+              {accommodation.averageRating.toFixed(1)}
+            </div>
+          )}
         </div>
 
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-          {accommodation.description}
-        </p>
-
-        <div className="flex items-center justify-between">
-          {/* Rating */}
-          <div className="flex items-center">
-            {accommodation.averageRating && accommodation.averageRating > 0 ? (
-              <>
-                <FiStar className="text-yellow-400 fill-current mr-1" />
-                <span className="text-sm font-medium text-gray-900">
-                  {accommodation.averageRating.toFixed(1)}
-                </span>
-                <span className="text-sm text-gray-500 ml-1">
-                  ({accommodation.reviewCount})
-                </span>
-              </>
-            ) : (
-              <span className="text-sm text-gray-400">리뷰 없음</span>
-            )}
+        {/* Features */}
+        {accommodation.features && accommodation.features.length > 0 && (
+          <div className="flex gap-3 flex-wrap mb-4">
+            {accommodation.features.slice(0, 4).map((feature, index) => (
+              <span key={index} className="text-xs text-gray-600 flex items-center gap-1">
+                {feature}
+              </span>
+            ))}
           </div>
+        )}
 
-          {/* Price */}
-          <div className="text-right">
-            {accommodation.minPrice ? (
-              <>
-                <div className="text-lg font-bold text-gray-900">
-                  {accommodation.minPrice.toLocaleString()}원
-                </div>
-                <div className="text-xs text-gray-500">1박 기준</div>
-              </>
-            ) : (
-              <div className="text-sm text-gray-400">가격 문의</div>
-            )}
-          </div>
+        {/* Price */}
+        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+          <div className="text-sm text-gray-600">1박</div>
+          {accommodation.minPrice ? (
+            <div className="text-2xl font-bold text-gray-900 font-inter">
+              ₩{accommodation.minPrice.toLocaleString()}
+            </div>
+          ) : (
+            <div className="text-sm text-gray-400">가격 문의</div>
+          )}
         </div>
       </div>
     </Link>
