@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
 import AccommodationCard from '../components/AccommodationCard';
 import FilterSidebar from '../components/FilterSidebar';
+import Button from '../components/ui/Button';
 import { FiFilter } from 'react-icons/fi';
 import type { Accommodation } from '../types';
 
@@ -55,26 +56,26 @@ const AccommodationsPage = () => {
     <Layout>
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-primary-600 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold mb-2">영유아 숙소 찾기</h1>
-          <p className="text-primary-100">
+      <div className="bg-gradient-to-br from-primary-500 to-primary-600 text-white py-16">
+        <div className="max-w-screen-xl mx-auto px-6">
+          <h1 className="text-4xl font-bold mb-2">영유아 숙소 찾기</h1>
+          <p className="text-lg text-primary-100">
             아이와 함께하는 안전하고 편안한 여행을 위한 숙소
           </p>
         </div>
       </div>
 
       {/* Search Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
+      <div className="max-w-screen-xl mx-auto px-6 -mt-10">
         <SearchBar onSearch={handleSearch} />
       </div>
 
       {/* Results */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col lg:flex-row gap-6">
+      <div className="max-w-screen-xl mx-auto px-6 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Filter Sidebar - Desktop */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-4">
+          <div className="hidden lg:block w-72 flex-shrink-0">
+            <div className="sticky top-24">
               <FilterSidebar filters={filters} onFilterChange={setFilters} />
             </div>
           </div>
@@ -82,10 +83,10 @@ const AccommodationsPage = () => {
           {/* Main Content */}
           <div className="flex-1">
             {/* Results Header */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-4">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900">
+                  <h2 className="text-2xl font-bold text-gray-900">
                     검색 결과
                   </h2>
                   <p className="text-sm text-gray-600 mt-1">
@@ -94,19 +95,21 @@ const AccommodationsPage = () => {
                 </div>
 
                 {/* Filter Button - Mobile */}
-                <button
+                <Button
+                  variant="secondary"
+                  size="md"
                   onClick={() => setShowFilters(true)}
-                  className="lg:hidden px-4 py-2 border border-gray-300 rounded-lg flex items-center space-x-2"
+                  className="lg:hidden"
                 >
-                  <FiFilter />
-                  <span>필터</span>
-                </button>
+                  <FiFilter className="mr-2" />
+                  필터
+                </Button>
               </div>
 
               {/* Sort */}
               <div>
                 <select
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                   onChange={(e) => {
                     const [sortBy, sortOrder] = e.target.value.split('-');
                     setFilters({ ...filters, sortBy, sortOrder });
@@ -143,15 +146,16 @@ const AccommodationsPage = () => {
 
                 {/* Pagination */}
                 {pagination.totalPages > 1 && (
-                  <div className="flex justify-center mt-8">
-                    <nav className="flex items-center space-x-2">
-                      <button
+                  <div className="flex justify-center mt-12">
+                    <nav className="flex items-center gap-2">
+                      <Button
+                        variant="secondary"
+                        size="md"
                         onClick={() => handlePageChange(pagination.page - 1)}
                         disabled={pagination.page === 1}
-                        className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
                       >
                         이전
-                      </button>
+                      </Button>
 
                       {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
                         .filter(
@@ -161,16 +165,16 @@ const AccommodationsPage = () => {
                             Math.abs(page - pagination.page) <= 2
                         )
                         .map((page, index, array) => (
-                          <div key={page} className="flex items-center">
+                          <div key={page} className="flex items-center gap-2">
                             {index > 0 && array[index - 1] !== page - 1 && (
                               <span className="px-2 text-gray-400">...</span>
                             )}
                             <button
                               onClick={() => handlePageChange(page)}
-                              className={`px-4 py-2 rounded-lg ${
+                              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                                 pagination.page === page
-                                  ? 'bg-primary-600 text-white'
-                                  : 'border border-gray-300 hover:bg-gray-50'
+                                  ? 'bg-primary-500 text-white shadow-md'
+                                  : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-primary-500 hover:text-primary-500'
                               }`}
                             >
                               {page}
@@ -178,13 +182,14 @@ const AccommodationsPage = () => {
                           </div>
                         ))}
 
-                      <button
+                      <Button
+                        variant="secondary"
+                        size="md"
                         onClick={() => handlePageChange(pagination.page + 1)}
                         disabled={pagination.page === pagination.totalPages}
-                        className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
                       >
                         다음
-                      </button>
+                      </Button>
                     </nav>
                   </div>
                 )}

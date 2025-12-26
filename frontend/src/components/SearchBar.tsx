@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiSearch, FiMapPin, FiCalendar, FiUsers } from 'react-icons/fi';
+import Button from './ui/Button';
 
 interface SearchBarProps {
   onSearch: (filters: any) => void;
@@ -27,18 +27,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div className="bg-white rounded-xl shadow-xl p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {/* Region */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <FiMapPin className="inline mr-1" />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="region" className="text-sm font-semibold text-gray-700">
             지역
           </label>
           <select
+            id="region"
             value={region}
             onChange={(e) => setRegion(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
           >
             <option value="">전체</option>
             {REGIONS.map((r) => (
@@ -50,84 +50,83 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         </div>
 
         {/* Check-in */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <FiCalendar className="inline mr-1" />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="checkIn" className="text-sm font-semibold text-gray-700">
             체크인
           </label>
           <input
+            id="checkIn"
             type="date"
             value={checkIn}
             onChange={(e) => setCheckIn(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
           />
         </div>
 
         {/* Check-out */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <FiCalendar className="inline mr-1" />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="checkOut" className="text-sm font-semibold text-gray-700">
             체크아웃
           </label>
           <input
+            id="checkOut"
             type="date"
             value={checkOut}
             onChange={(e) => setCheckOut(e.target.value)}
             min={checkIn}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
           />
         </div>
 
         {/* People */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <FiUsers className="inline mr-1" />
-            인원
-          </label>
-          <div className="flex space-x-2">
-            <div className="flex-1">
-              <label className="text-xs text-gray-500">성인</label>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-gray-700">인원</label>
+          <div className="grid grid-cols-3 gap-2">
+            <div>
+              <label htmlFor="adults" className="text-xs text-gray-500">성인</label>
               <input
+                id="adults"
                 type="number"
                 min="1"
                 value={adults}
                 onChange={(e) => setAdults(parseInt(e.target.value))}
-                className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-2 py-2 border-2 border-gray-200 rounded text-sm transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10"
               />
             </div>
-            <div className="flex-1">
-              <label className="text-xs text-gray-500">어린이</label>
+            <div>
+              <label htmlFor="children" className="text-xs text-gray-500">어린이</label>
               <input
+                id="children"
                 type="number"
                 min="0"
                 value={children}
                 onChange={(e) => setChildren(parseInt(e.target.value))}
-                className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-2 py-2 border-2 border-gray-200 rounded text-sm transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10"
               />
             </div>
-            <div className="flex-1">
-              <label className="text-xs text-gray-500">영유아</label>
+            <div>
+              <label htmlFor="infants" className="text-xs text-gray-500">영유아</label>
               <input
+                id="infants"
                 type="number"
                 min="0"
                 value={infants}
                 onChange={(e) => setInfants(parseInt(e.target.value))}
-                className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-2 py-2 border-2 border-gray-200 rounded text-sm transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10"
               />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-4 flex justify-end">
-        <button
-          onClick={handleSearch}
-          className="px-8 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors flex items-center"
-        >
-          <FiSearch className="mr-2" />
-          검색
-        </button>
-      </div>
+      <Button
+        variant="primary"
+        size="lg"
+        onClick={handleSearch}
+        className="w-full text-lg"
+      >
+        🔍 검색하기
+      </Button>
     </div>
   );
 };

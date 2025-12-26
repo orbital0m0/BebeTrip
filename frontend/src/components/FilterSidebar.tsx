@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { FiX } from 'react-icons/fi';
 import { masterDataService } from '../services/masterDataService';
+import FilterChip from './ui/FilterChip';
+import Button from './ui/Button';
 
 interface FilterSidebarProps {
   filters: any;
@@ -89,7 +91,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, onFilterChange, 
     <div className="bg-white rounded-lg shadow p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">필터</h3>
+        <h3 className="text-lg font-bold text-gray-900">필터</h3>
         {onClose && (
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <FiX size={24} />
@@ -100,40 +102,36 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, onFilterChange, 
       <div className="space-y-6">
         {/* Age Months Filter */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-3">아이 월령</h4>
-          <div className="space-y-2">
+          <h4 className="text-sm font-bold text-gray-900 mb-3">아이 나이</h4>
+          <div className="flex flex-wrap gap-2">
             {ageMonths.map((age) => (
-              <label key={age.id} className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={selectedAgeMonths.includes(age.monthFrom)}
-                  onChange={() => handleAgeMonthToggle(age.monthFrom)}
-                  className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">{age.label}</span>
-              </label>
+              <FilterChip
+                key={age.id}
+                active={selectedAgeMonths.includes(age.monthFrom)}
+                onClick={() => handleAgeMonthToggle(age.monthFrom)}
+              >
+                {age.label}
+              </FilterChip>
             ))}
           </div>
         </div>
 
         {/* Amenities Filter */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-3">편의용품</h4>
+          <h4 className="text-sm font-bold text-gray-900 mb-3">편의 시설</h4>
           <div className="space-y-4">
             {Object.entries(amenitiesByCategory).map(([category, items]) => (
               <div key={category}>
-                <h5 className="text-xs font-medium text-gray-500 mb-2">{category}</h5>
-                <div className="space-y-2">
+                <h5 className="text-xs font-semibold text-gray-500 mb-2">{category}</h5>
+                <div className="flex flex-wrap gap-2">
                   {items.map((amenity) => (
-                    <label key={amenity.id} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={selectedAmenities.includes(amenity.id)}
-                        onChange={() => handleAmenityToggle(amenity.id)}
-                        className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">{amenity.name}</span>
-                    </label>
+                    <FilterChip
+                      key={amenity.id}
+                      active={selectedAmenities.includes(amenity.id)}
+                      onClick={() => handleAmenityToggle(amenity.id)}
+                    >
+                      {amenity.name}
+                    </FilterChip>
                   ))}
                 </div>
               </div>
@@ -143,14 +141,14 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, onFilterChange, 
 
         {/* Price Range Filter */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-3">가격대 (1박 기준)</h4>
-          <div className="flex items-center space-x-2">
+          <h4 className="text-sm font-bold text-gray-900 mb-3">가격대 (1박 기준)</h4>
+          <div className="flex items-center gap-2">
             <input
               type="number"
               placeholder="최소"
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="flex-1 px-3 py-2 border-2 border-gray-200 rounded-md focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all duration-200"
             />
             <span className="text-gray-500">~</span>
             <input
@@ -158,55 +156,52 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, onFilterChange, 
               placeholder="최대"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="flex-1 px-3 py-2 border-2 border-gray-200 rounded-md focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all duration-200"
             />
           </div>
         </div>
 
         {/* Rating Filter */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-3">평점</h4>
-          <div className="space-y-2">
+          <h4 className="text-sm font-bold text-gray-900 mb-3">평점</h4>
+          <div className="flex flex-wrap gap-2">
             {[4.5, 4.0, 3.5, 3.0].map((rating) => (
-              <label key={rating} className="flex items-center">
-                <input
-                  type="radio"
-                  name="rating"
-                  checked={minRating === rating}
-                  onChange={() => setMinRating(rating)}
-                  className="border-gray-300 text-primary-600 focus:ring-primary-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">{rating}점 이상</span>
-              </label>
+              <FilterChip
+                key={rating}
+                active={minRating === rating}
+                onClick={() => setMinRating(rating)}
+              >
+                ★ {rating}+
+              </FilterChip>
             ))}
-            <label className="flex items-center">
-              <input
-                type="radio"
-                name="rating"
-                checked={minRating === 0}
-                onChange={() => setMinRating(0)}
-                className="border-gray-300 text-primary-600 focus:ring-primary-500"
-              />
-              <span className="ml-2 text-sm text-gray-700">전체</span>
-            </label>
+            <FilterChip
+              active={minRating === 0}
+              onClick={() => setMinRating(0)}
+            >
+              전체
+            </FilterChip>
           </div>
         </div>
       </div>
 
       {/* Buttons */}
-      <div className="mt-6 flex space-x-3">
-        <button
+      <div className="mt-6 flex gap-3">
+        <Button
+          variant="secondary"
+          size="md"
           onClick={handleReset}
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+          className="flex-1"
         >
           초기화
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="primary"
+          size="md"
           onClick={handleApply}
-          className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+          className="flex-1"
         >
           적용
-        </button>
+        </Button>
       </div>
     </div>
   );
