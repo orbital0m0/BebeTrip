@@ -8,6 +8,8 @@ import ImageGallery from '../components/ImageGallery';
 import AmenitiesChecklist from '../components/AmenitiesChecklist';
 import WishlistButton from '../components/WishlistButton';
 import ReviewModal from '../components/ReviewModal';
+import Button from '../components/ui/Button';
+import Badge from '../components/ui/Badge';
 
 interface AccommodationDetail {
   id: number;
@@ -89,52 +91,59 @@ const AccommodationDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
-      </div>
+      <Layout>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
+        </div>
+      </Layout>
     );
   }
 
   if (!accommodation) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">숙소 정보를 찾을 수 없습니다.</p>
-      </div>
+      <Layout>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <div className="text-6xl mb-4">🏨</div>
+            <p className="text-xl text-gray-600">숙소 정보를 찾을 수 없습니다.</p>
+          </div>
+        </div>
+      </Layout>
     );
   }
 
   return (
     <Layout>
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-screen-xl mx-auto px-6 py-8">
         {/* Image Gallery */}
-        <div className="mb-8">
+        <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
           <ImageGallery images={accommodation.images} />
         </div>
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Main Info */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6">
             {/* Header */}
-            <div>
-              <div className="flex items-start justify-between mb-4">
+            <div className="bg-white rounded-xl shadow-md p-8">
+              <div className="flex items-start justify-between mb-6">
                 <div className="flex-1">
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-4xl font-bold text-gray-900 mb-4">
                     {accommodation.name}
                   </h1>
-                  <div className="flex items-center text-gray-600 mb-2">
-                    <FiMapPin className="mr-2" />
-                    <span>{accommodation.address}</span>
+                  <div className="flex items-center gap-2 text-gray-600 mb-3">
+                    <FiMapPin className="text-primary-500" size={18} />
+                    <span className="text-base">{accommodation.address}</span>
                   </div>
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center gap-4">
                     {accommodation.averageRating > 0 && (
-                      <div className="flex items-center">
-                        <FiStar className="text-yellow-400 fill-current mr-1" />
-                        <span className="font-medium text-gray-900">
+                      <div className="flex items-center gap-2">
+                        <span className="text-accent-500 text-xl">★</span>
+                        <span className="text-lg font-bold text-gray-900">
                           {accommodation.averageRating.toFixed(1)}
                         </span>
-                        <span className="text-gray-500 ml-1">
+                        <span className="text-gray-500">
                           ({accommodation.reviewCount}개 리뷰)
                         </span>
                       </div>
@@ -146,24 +155,26 @@ const AccommodationDetailPage = () => {
             </div>
 
             {/* Description */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">숙소 소개</h2>
-              <p className="text-gray-700 whitespace-pre-line">{accommodation.description}</p>
+            <div className="bg-white rounded-xl shadow-md p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">🏠 숙소 소개</h2>
+              <p className="text-gray-700 whitespace-pre-line leading-relaxed">{accommodation.description}</p>
             </div>
 
             {/* Amenities */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">편의용품</h2>
+            <div className="bg-white rounded-xl shadow-md p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">🧸 편의용품</h2>
               <AmenitiesChecklist amenities={accommodation.amenities} />
             </div>
 
             {/* Reviews */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  리뷰 ({accommodation.reviewCount})
+            <div className="bg-white rounded-xl shadow-md p-8">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  💬 리뷰 ({accommodation.reviewCount})
                 </h2>
-                <button
+                <Button
+                  variant="primary"
+                  size="md"
                   onClick={() => {
                     if (!user) {
                       navigate('/login');
@@ -171,96 +182,92 @@ const AccommodationDetailPage = () => {
                     }
                     setShowReviewModal(true);
                   }}
-                  className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
                 >
-                  <FiEdit3 size={16} />
-                  <span>리뷰 작성</span>
-                </button>
+                  <FiEdit3 size={16} className="inline mr-2" />
+                  리뷰 작성
+                </Button>
               </div>
 
               {accommodation.reviews.length === 0 ? (
-                <p className="text-center py-8 text-gray-500">
-                  아직 작성된 리뷰가 없습니다.
-                </p>
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">✍️</div>
+                  <p className="text-lg text-gray-500">
+                    아직 작성된 리뷰가 없습니다.
+                  </p>
+                </div>
               ) : (
-                <div className="space-y-6">
+                <div className="space-y-8">
                   {accommodation.reviews.map((review) => (
-                    <div key={review.id} className="border-b border-gray-200 pb-6 last:border-0">
+                    <div key={review.id} className="border-b-2 border-gray-100 pb-8 last:border-0">
                       {/* Review Header */}
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center space-x-3">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center gap-4">
                           {review.user.profileImage ? (
                             <img
                               src={review.user.profileImage}
                               alt={review.user.name}
-                              className="w-10 h-10 rounded-full"
+                              className="w-12 h-12 rounded-full ring-2 ring-primary-100"
                             />
                           ) : (
-                            <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                              <span className="text-gray-500 text-sm">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                              <span className="text-primary-600 font-semibold">
                                 {review.user.name.charAt(0)}
                               </span>
                             </div>
                           )}
                           <div>
-                            <p className="font-medium text-gray-900">{review.user.name}</p>
+                            <p className="font-bold text-gray-900">{review.user.name}</p>
                             <p className="text-sm text-gray-500">
                               {new Date(review.createdAt).toLocaleDateString('ko-KR')}
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-center">
-                          <FiStar className="text-yellow-400 fill-current mr-1" />
-                          <span className="font-medium">{review.rating.toFixed(1)}</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-accent-500">★</span>
+                          <span className="font-bold text-gray-900">{review.rating.toFixed(1)}</span>
                         </div>
                       </div>
 
                       {/* Review Info */}
-                      <div className="flex items-center space-x-4 mb-3 text-sm text-gray-600">
-                        <div className="flex items-center">
-                          <FiUsers className="mr-1" />
+                      <div className="flex items-center flex-wrap gap-3 mb-4 text-sm text-gray-600">
+                        <div className="flex items-center gap-1.5">
+                          <FiUsers className="text-gray-400" size={16} />
                           <span>{review.totalPeople}명</span>
                         </div>
-                        <span>•</span>
+                        <span className="text-gray-300">|</span>
                         <span>아이 {review.childAgeMonths}개월</span>
-                        <span>•</span>
-                        <span>{review.roomType}</span>
+                        <span className="text-gray-300">|</span>
+                        <span className="text-gray-500">{review.roomType}</span>
                       </div>
 
                       {/* Review Content */}
                       {review.content && (
-                        <p className="text-gray-700 mb-3">{review.content}</p>
+                        <p className="text-gray-700 mb-4 leading-relaxed">{review.content}</p>
                       )}
 
                       {/* Pros/Cons */}
                       {(review.pros.length > 0 || review.cons.length > 0) && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                           {review.pros.length > 0 && (
                             <div>
-                              <p className="text-sm font-medium text-green-700 mb-2">장점</p>
+                              <p className="text-sm font-bold text-success mb-3">👍 장점</p>
                               <div className="flex flex-wrap gap-2">
                                 {review.pros.map((pro) => (
-                                  <span
-                                    key={pro.id}
-                                    className="inline-block px-3 py-1 bg-green-50 text-green-700 text-sm rounded-full"
-                                  >
+                                  <Badge key={pro.id} variant="positive">
                                     {pro.name}
-                                  </span>
+                                  </Badge>
                                 ))}
                               </div>
                             </div>
                           )}
                           {review.cons.length > 0 && (
                             <div>
-                              <p className="text-sm font-medium text-red-700 mb-2">단점</p>
+                              <p className="text-sm font-bold text-error mb-3">👎 단점</p>
                               <div className="flex flex-wrap gap-2">
                                 {review.cons.map((con) => (
-                                  <span
-                                    key={con.id}
-                                    className="inline-block px-3 py-1 bg-red-50 text-red-700 text-sm rounded-full"
-                                  >
+                                  <Badge key={con.id} variant="negative">
                                     {con.name}
-                                  </span>
+                                  </Badge>
                                 ))}
                               </div>
                             </div>
@@ -270,13 +277,13 @@ const AccommodationDetailPage = () => {
 
                       {/* Review Images */}
                       {review.images.length > 0 && (
-                        <div className="flex space-x-2 overflow-x-auto">
+                        <div className="flex gap-3 overflow-x-auto pb-2">
                           {review.images.map((image) => (
                             <img
                               key={image.id}
                               src={image.imageUrl}
                               alt="Review"
-                              className="w-32 h-32 object-cover rounded-lg"
+                              className="w-40 h-40 object-cover rounded-xl flex-shrink-0 hover:scale-105 transition-transform duration-200 cursor-pointer"
                             />
                           ))}
                         </div>
@@ -291,36 +298,39 @@ const AccommodationDetailPage = () => {
           {/* Right Column - Room Types & Booking Info */}
           <div className="lg:col-span-1">
             <div className="sticky top-4">
-              <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">객실 정보</h2>
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">🛏️ 객실 정보</h2>
 
                 {accommodation.roomTypes.length === 0 ? (
-                  <p className="text-center py-4 text-gray-500">
-                    객실 정보가 없습니다.
-                  </p>
+                  <div className="text-center py-8">
+                    <div className="text-5xl mb-3">🚪</div>
+                    <p className="text-gray-500">
+                      객실 정보가 없습니다.
+                    </p>
+                  </div>
                 ) : (
                   <div className="space-y-4">
                     {accommodation.roomTypes.map((room) => (
                       <div
                         key={room.id}
-                        className="border border-gray-200 rounded-lg p-4 hover:border-primary-300 transition-colors"
+                        className="border-2 border-gray-100 rounded-xl p-5 hover:border-primary-300 hover:shadow-md transition-all duration-200"
                       >
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-semibold text-gray-900">{room.name}</h3>
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="font-bold text-gray-900 text-lg">{room.name}</h3>
                           <div className="text-right">
-                            <div className="text-lg font-bold text-primary-600">
-                              {room.pricePerNight.toLocaleString()}원
+                            <div className="text-xl font-bold text-primary-500 font-inter">
+                              ₩{room.pricePerNight.toLocaleString()}
                             </div>
                             <div className="text-xs text-gray-500">1박 기준</div>
                           </div>
                         </div>
 
                         {room.description && (
-                          <p className="text-sm text-gray-600 mb-2">{room.description}</p>
+                          <p className="text-sm text-gray-600 mb-3 leading-relaxed">{room.description}</p>
                         )}
 
-                        <div className="flex items-center text-sm text-gray-500">
-                          <FiUsers className="mr-1" />
+                        <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
+                          <FiUsers className="text-primary-500" size={16} />
                           <span>최대 {room.maxOccupancy}명</span>
                         </div>
                       </div>
@@ -328,9 +338,9 @@ const AccommodationDetailPage = () => {
                   </div>
                 )}
 
-                <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <p className="text-sm text-blue-800">
-                    <strong>안내:</strong> 예약 문의는 숙소에 직접 연락해 주세요.
+                <div className="mt-6 p-5 bg-gradient-to-br from-secondary-50 to-primary-50 border-2 border-secondary-100 rounded-xl">
+                  <p className="text-sm font-semibold text-gray-800">
+                    ℹ️ <strong>안내:</strong> 예약 문의는 숙소에 직접 연락해 주세요.
                   </p>
                 </div>
               </div>

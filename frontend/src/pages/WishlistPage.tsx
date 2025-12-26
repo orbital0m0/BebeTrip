@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiStar, FiMapPin, FiTrash2 } from 'react-icons/fi';
+import { FiTrash2 } from 'react-icons/fi';
 import { wishlistService } from '../services/wishlistService';
 import Layout from '../components/Layout';
+import Button from '../components/ui/Button';
 
 interface WishlistItem {
   id: number;
@@ -59,34 +60,34 @@ const WishlistPage = () => {
     <Layout>
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-primary-600 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold mb-2">위시리스트</h1>
-          <p className="text-primary-100">저장한 숙소를 확인하세요</p>
+      <div className="bg-gradient-to-br from-primary-500 to-primary-600 text-white py-16">
+        <div className="max-w-screen-xl mx-auto px-6">
+          <h1 className="text-4xl font-bold mb-2">♥ 위시리스트</h1>
+          <p className="text-lg text-primary-100">저장한 숙소를 확인하세요</p>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-screen-xl mx-auto px-6 py-12">
         {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
+          <div className="flex items-center justify-center py-20">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
           </div>
         ) : wishlist.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-lg shadow">
-            <p className="text-gray-500 mb-4">저장한 숙소가 없습니다.</p>
-            <Link
-              to="/accommodations"
-              className="inline-block px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
-            >
-              숙소 둘러보기
+          <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+            <div className="text-6xl mb-4">💔</div>
+            <p className="text-xl text-gray-600 mb-6">저장한 숙소가 없습니다.</p>
+            <Link to="/accommodations">
+              <Button variant="primary" size="lg">
+                숙소 둘러보기
+              </Button>
             </Link>
           </div>
         ) : (
           <>
-            <div className="mb-6">
-              <p className="text-lg text-gray-900">
-                총 <span className="font-semibold">{wishlist.length}</span>개의 숙소
+            <div className="mb-8">
+              <p className="text-2xl font-bold text-gray-900">
+                총 <span className="text-primary-500">{wishlist.length}</span>개의 숙소
               </p>
             </div>
 
@@ -95,56 +96,48 @@ const WishlistPage = () => {
               {wishlist.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden"
+                  className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group"
                 >
                   {/* Image */}
                   <Link
                     to={`/accommodations/${item.accommodation.id}`}
-                    className="block relative h-48 bg-gray-200"
+                    className="block relative aspect-[4/3] overflow-hidden"
                   >
                     {item.accommodation.thumbnailImage ? (
                       <img
                         src={item.accommodation.thumbnailImage}
                         alt={item.accommodation.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                      <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400">
                         No Image
                       </div>
                     )}
                   </Link>
 
                   {/* Content */}
-                  <div className="p-4">
+                  <div className="p-6">
                     <Link
                       to={`/accommodations/${item.accommodation.id}`}
-                      className="block hover:opacity-75 transition-opacity"
+                      className="block hover:opacity-75 transition-opacity mb-4"
                     >
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-1">
+                      <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-1">
                         {item.accommodation.name}
                       </h3>
 
-                      <div className="flex items-center text-sm text-gray-600 mb-2">
-                        <FiMapPin className="mr-1" />
-                        <span>{item.accommodation.region}</span>
-                      </div>
-
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                        {item.accommodation.description}
+                      <p className="text-sm text-gray-500 mb-3 flex items-center gap-1">
+                        📍 {item.accommodation.region}
                       </p>
 
                       <div className="flex items-center justify-between">
                         {/* Rating */}
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-1">
                           {item.accommodation.averageRating && item.accommodation.averageRating > 0 ? (
                             <>
-                              <FiStar className="text-yellow-400 fill-current mr-1" />
-                              <span className="text-sm font-medium text-gray-900">
+                              <span className="text-accent-500">★</span>
+                              <span className="text-sm font-semibold text-gray-900">
                                 {item.accommodation.averageRating.toFixed(1)}
-                              </span>
-                              <span className="text-sm text-gray-500 ml-1">
-                                ({item.accommodation.reviewCount})
                               </span>
                             </>
                           ) : (
@@ -153,25 +146,20 @@ const WishlistPage = () => {
                         </div>
 
                         {/* Price */}
-                        <div className="text-right">
-                          {item.accommodation.minPrice ? (
-                            <>
-                              <div className="text-lg font-bold text-gray-900">
-                                {item.accommodation.minPrice.toLocaleString()}원
-                              </div>
-                              <div className="text-xs text-gray-500">1박 기준</div>
-                            </>
-                          ) : (
-                            <div className="text-sm text-gray-400">가격 문의</div>
-                          )}
-                        </div>
+                        {item.accommodation.minPrice ? (
+                          <div className="text-right">
+                            <div className="text-xl font-bold text-gray-900 font-inter">
+                              ₩{item.accommodation.minPrice.toLocaleString()}
+                            </div>
+                          </div>
+                        ) : null}
                       </div>
                     </Link>
 
                     {/* Remove Button */}
                     <button
                       onClick={() => handleRemove(item.accommodation.id)}
-                      className="w-full mt-4 flex items-center justify-center space-x-2 px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-red-200 text-red-600 rounded-lg hover:bg-red-50 hover:border-red-300 transition-all duration-200 font-medium"
                     >
                       <FiTrash2 size={16} />
                       <span>삭제</span>
