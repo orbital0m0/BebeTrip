@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Button from './Button';
+import GuestSelector from './GuestSelector';
+import DateRangeSelector from './DateRangeSelector';
 
 export interface SearchBoxProps {
   onSearch?: (filters: SearchFilters) => void;
@@ -10,29 +12,39 @@ export interface SearchFilters {
   checkIn: string;
   checkOut: string;
   childAge: string;
-  guests: string;
+  adults: number;
+  children: number;
+  infants: number;
 }
 
 export default function SearchBox({ onSearch }: SearchBoxProps) {
-  const [filters, setFilters] = useState<SearchFilters>({
-    location: '',
+  const [location, setLocation] = useState('');
+  const [dateRange, setDateRange] = useState({
     checkIn: '',
     checkOut: '',
-    childAge: '0-12개월',
-    guests: '2명',
+  });
+  const [childAge, setChildAge] = useState('0-12개월');
+  const [guests, setGuests] = useState({
+    adults: 2,
+    children: 0,
+    infants: 1,
   });
 
   const handleSearch = () => {
-    onSearch?.(filters);
-  };
-
-  const handleChange = (field: keyof SearchFilters, value: string) => {
-    setFilters((prev) => ({ ...prev, [field]: value }));
+    onSearch?.({
+      location,
+      checkIn: dateRange.checkIn,
+      checkOut: dateRange.checkOut,
+      childAge,
+      adults: guests.adults,
+      children: guests.children,
+      infants: guests.infants,
+    });
   };
 
   return (
-    <div className="bg-white rounded-xl p-8 shadow-xl max-w-6xl w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 lg:grid-cols-[1.5fr_1.2fr_1.2fr_1fr_1fr]">
+    <div className="bg-white rounded-xl p-8 shadow-xl max-w-7xl w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 lg:grid-cols-[1.5fr_1.5fr_0.9fr_1.7fr]">
         {/* Location */}
         <div className="flex flex-col gap-2">
           <label htmlFor="location" className="text-sm font-semibold text-gray-700">
@@ -42,42 +54,14 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
             id="location"
             type="text"
             placeholder="지역 또는 숙소명 검색"
-            value={filters.location}
-            onChange={(e) => handleChange('location', e.target.value)}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
           />
         </div>
 
-        {/* Check-in */}
-        <div className="flex flex-col gap-2">
-          <label htmlFor="checkIn" className="text-sm font-semibold text-gray-700">
-            체크인
-          </label>
-          <input
-            id="checkIn"
-            type="date"
-            value={filters.checkIn}
-            onChange={(e) => handleChange('checkIn', e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 cursor-pointer"
-            style={{ colorScheme: 'light' }}
-          />
-        </div>
-
-        {/* Check-out */}
-        <div className="flex flex-col gap-2">
-          <label htmlFor="checkOut" className="text-sm font-semibold text-gray-700">
-            체크아웃
-          </label>
-          <input
-            id="checkOut"
-            type="date"
-            value={filters.checkOut}
-            onChange={(e) => handleChange('checkOut', e.target.value)}
-            min={filters.checkIn}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 cursor-pointer"
-            style={{ colorScheme: 'light' }}
-          />
-        </div>
+        {/* Date Range */}
+        <DateRangeSelector value={dateRange} onChange={setDateRange} label="체크인 - 체크아웃" />
 
         {/* Child Age */}
         <div className="flex flex-col gap-2">
@@ -86,8 +70,8 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
           </label>
           <select
             id="childAge"
-            value={filters.childAge}
-            onChange={(e) => handleChange('childAge', e.target.value)}
+            value={childAge}
+            onChange={(e) => setChildAge(e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 bg-white cursor-pointer"
           >
             <option className="py-3">0-12개월</option>
@@ -98,22 +82,7 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
         </div>
 
         {/* Guests */}
-        <div className="flex flex-col gap-2">
-          <label htmlFor="guests" className="text-sm font-semibold text-gray-700">
-            인원
-          </label>
-          <select
-            id="guests"
-            value={filters.guests}
-            onChange={(e) => handleChange('guests', e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 bg-white cursor-pointer"
-          >
-            <option className="py-3">2명</option>
-            <option className="py-3">3명</option>
-            <option className="py-3">4명</option>
-            <option className="py-3">5명 이상</option>
-          </select>
-        </div>
+        <GuestSelector value={guests} onChange={setGuests} label="인원" />
       </div>
 
       <Button
