@@ -109,16 +109,16 @@ const AccommodationsPage = () => {
               {/* Sort */}
               <div>
                 <select
-                  className="px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+                  className="px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 bg-white cursor-pointer"
                   onChange={(e) => {
                     const [sortBy, sortOrder] = e.target.value.split('-');
                     setFilters({ ...filters, sortBy, sortOrder });
                   }}
                 >
-                  <option value="created_at-desc">최신순</option>
-                  <option value="average_rating-desc">평점 높은순</option>
-                  <option value="min_price-asc">가격 낮은순</option>
-                  <option value="min_price-desc">가격 높은순</option>
+                  <option value="created_at-desc" className="py-3">최신순</option>
+                  <option value="average_rating-desc" className="py-3">평점 높은순</option>
+                  <option value="min_price-asc" className="py-3">가격 낮은순</option>
+                  <option value="min_price-desc" className="py-3">가격 높은순</option>
                 </select>
               </div>
             </div>

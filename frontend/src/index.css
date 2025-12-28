@@ -13,3 +13,56 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Select box option styling */
+select option {
+  padding: 0.75rem 1rem;
+  background-color: white;
+  color: #374151;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+select option:hover,
+select option:focus,
+select option:checked {
+  background-color: #FFF5F5;
+  color: #FF6B6B;
+}
+
+select option:disabled {
+  color: #9CA3AF;
+  background-color: #F9FAFB;
+}
+
+/* Date input calendar styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 0.25rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Calendar popup width */
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+  display: block;
+  padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-text {
+  padding: 0 0.25rem;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  padding: 0 0.25rem;
+}

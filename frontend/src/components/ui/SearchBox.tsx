@@ -7,7 +7,8 @@ export interface SearchBoxProps {
 
 export interface SearchFilters {
   location: string;
-  dates: string;
+  checkIn: string;
+  checkOut: string;
   childAge: string;
   guests: string;
 }
@@ -15,7 +16,8 @@ export interface SearchFilters {
 export default function SearchBox({ onSearch }: SearchBoxProps) {
   const [filters, setFilters] = useState<SearchFilters>({
     location: '',
-    dates: '',
+    checkIn: '',
+    checkOut: '',
     childAge: '0-12개월',
     guests: '2명',
   });
@@ -29,8 +31,8 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl p-8 shadow-xl max-w-4xl w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="bg-white rounded-xl p-8 shadow-xl max-w-6xl w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 lg:grid-cols-[1.5fr_1.2fr_1.2fr_1fr_1fr]">
         {/* Location */}
         <div className="flex flex-col gap-2">
           <label htmlFor="location" className="text-sm font-semibold text-gray-700">
@@ -42,22 +44,38 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
             placeholder="지역 또는 숙소명 검색"
             value={filters.location}
             onChange={(e) => handleChange('location', e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
           />
         </div>
 
-        {/* Dates */}
+        {/* Check-in */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="dates" className="text-sm font-semibold text-gray-700">
-            체크인 - 체크아웃
+          <label htmlFor="checkIn" className="text-sm font-semibold text-gray-700">
+            체크인
           </label>
           <input
-            id="dates"
-            type="text"
-            placeholder="날짜 선택"
-            value={filters.dates}
-            onChange={(e) => handleChange('dates', e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+            id="checkIn"
+            type="date"
+            value={filters.checkIn}
+            onChange={(e) => handleChange('checkIn', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 cursor-pointer"
+            style={{ colorScheme: 'light' }}
+          />
+        </div>
+
+        {/* Check-out */}
+        <div className="flex flex-col gap-2">
+          <label htmlFor="checkOut" className="text-sm font-semibold text-gray-700">
+            체크아웃
+          </label>
+          <input
+            id="checkOut"
+            type="date"
+            value={filters.checkOut}
+            onChange={(e) => handleChange('checkOut', e.target.value)}
+            min={filters.checkIn}
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 cursor-pointer"
+            style={{ colorScheme: 'light' }}
           />
         </div>
 
@@ -70,12 +88,12 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
             id="childAge"
             value={filters.childAge}
             onChange={(e) => handleChange('childAge', e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 bg-white cursor-pointer"
           >
-            <option>0-12개월</option>
-            <option>13-24개월</option>
-            <option>25-36개월</option>
-            <option>37개월 이상</option>
+            <option className="py-3">0-12개월</option>
+            <option className="py-3">13-24개월</option>
+            <option className="py-3">25-36개월</option>
+            <option className="py-3">37개월 이상</option>
           </select>
         </div>
 
@@ -88,12 +106,12 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
             id="guests"
             value={filters.guests}
             onChange={(e) => handleChange('guests', e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-md text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 bg-white cursor-pointer"
           >
-            <option>2명</option>
-            <option>3명</option>
-            <option>4명</option>
-            <option>5명 이상</option>
+            <option className="py-3">2명</option>
+            <option className="py-3">3명</option>
+            <option className="py-3">4명</option>
+            <option className="py-3">5명 이상</option>
           </select>
         </div>
       </div>

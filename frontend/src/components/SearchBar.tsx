@@ -38,11 +38,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             id="region"
             value={region}
             onChange={(e) => setRegion(e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 bg-white cursor-pointer"
           >
-            <option value="">전체</option>
+            <option value="" className="py-3">전체</option>
             {REGIONS.map((r) => (
-              <option key={r} value={r}>
+              <option key={r} value={r} className="py-3">
                 {r}
               </option>
             ))}
@@ -59,7 +59,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             type="date"
             value={checkIn}
             onChange={(e) => setCheckIn(e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 cursor-pointer"
+            style={{ colorScheme: 'light' }}
           />
         </div>
 
@@ -74,7 +75,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             value={checkOut}
             onChange={(e) => setCheckOut(e.target.value)}
             min={checkIn}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base transition-all duration-200 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 cursor-pointer"
+            style={{ colorScheme: 'light' }}
           />
         </div>
 
