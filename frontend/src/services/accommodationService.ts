@@ -1,8 +1,44 @@
 import api from './api';
 import type { Accommodation, SearchFilters, PaginationParams } from '../types';
+import { mockAccommodations, mockAccommodationDetail } from './mockData';
+
+const USE_MOCK = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 
 export const accommodationService = {
   async getAccommodations(filters: SearchFilters & PaginationParams) {
+    if (USE_MOCK) {
+      // Mock 데이터 필터링
+      let filtered = [...mockAccommodations];
+
+      if (filters.region) {
+        filtered = filtered.filter(acc => acc.region === filters.region);
+      }
+      if (filters.minRating) {
+        filtered = filtered.filter(acc => (acc.averageRating || 0) >= filters.minRating!);
+      }
+      if (filters.minPrice) {
+        filtered = filtered.filter(acc => (acc.minPrice || 0) >= filters.minPrice!);
+      }
+      if (filters.maxPrice) {
+        filtered = filtered.filter(acc => (acc.minPrice || 999999) <= filters.maxPrice!);
+      }
+
+      const page = filters.page || 1;
+      const limit = filters.limit || 12;
+      const start = (page - 1) * limit;
+      const end = start + limit;
+
+      return {
+        data: filtered.slice(start, end),
+        pagination: {
+          total: filtered.length,
+          page,
+          limit,
+          totalPages: Math.ceil(filtered.length / limit),
+        },
+      };
+    }
+
     const params = new URLSearchParams();
 
     if (filters.region) params.append('region', filters.region);
@@ -30,11 +66,19 @@ export const accommodationService = {
   },
 
   async getAccommodationById(id: number) {
+    if (USE_MOCK) {
+      return mockAccommodationDetail;
+    }
+
     const response = await api.get(`/accommodations/${id}`);
     return response.data;
   },
 
   async getAccommodationAmenities(id: number, ageMonth?: number) {
+    if (USE_MOCK) {
+      return mockAccommodationDetail.amenities;
+    }
+
     const params = ageMonth ? `?ageMonth=${ageMonth}` : '';
     const response = await api.get(`/accommodations/${id}/amenities${params}`);
     return response.data;

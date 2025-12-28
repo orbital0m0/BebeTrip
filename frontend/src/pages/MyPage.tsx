@@ -52,7 +52,7 @@ const MyPage = () => {
     <Layout>
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
-        <div className="bg-gradient-to-br from-primary-500 to-primary-600 text-white py-16">
+        <div className="bg-gradient-to-br from-primary-500 to-primary-600 text-white py-20">
           <div className="max-w-screen-xl mx-auto px-6">
             <h1 className="text-4xl font-bold mb-2">👤 내 정보</h1>
             <p className="text-lg text-primary-100">회원 정보를 관리하세요</p>

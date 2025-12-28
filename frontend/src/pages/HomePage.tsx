@@ -88,7 +88,7 @@ const HomePage = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-50 to-white py-16 md:py-24">
+      <section className="bg-gradient-to-br from-primary-50 to-white py-20 md:py-24">
         <div className="max-w-screen-xl mx-auto px-6">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">

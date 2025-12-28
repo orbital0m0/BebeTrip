@@ -115,7 +115,7 @@ const AccommodationDetailPage = () => {
   return (
     <Layout>
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-screen-xl mx-auto px-6 py-8">
+      <div className="max-w-screen-xl mx-auto px-6 py-12">
         {/* Image Gallery */}
         <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
           <ImageGallery images={accommodation.images} />
