@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Accommodation } from '../types';
 import Badge from './ui/Badge';
+import WishlistButton from './WishlistButton';
 
 interface AccommodationCardProps {
   accommodation: Accommodation & {
@@ -16,13 +16,6 @@ interface AccommodationCardProps {
 }
 
 const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
-
-  const handleBookmarkClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsBookmarked(!isBookmarked);
-  };
-
   return (
     <Link
       to={`/accommodations/${accommodation.id}`}
@@ -42,13 +35,10 @@ const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) 
           </div>
         )}
 
-        {/* Bookmark Button */}
-        <button
-          onClick={handleBookmarkClick}
-          className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-primary-50 hover:text-primary-500 transition-all duration-200"
-        >
-          {isBookmarked ? '♥' : '♡'}
-        </button>
+        {/* Wishlist Button */}
+        <div className="absolute top-4 right-4">
+          <WishlistButton accommodationId={accommodation.id} size="md" />
+        </div>
 
         {/* Badges */}
         <div className="absolute bottom-4 left-4 flex gap-2 flex-wrap">

@@ -33,7 +33,7 @@ const WishlistPage = () => {
   const loadWishlist = async () => {
     setLoading(true);
     try {
-      const data = await wishlistService.getWishlist();
+      const data = await wishlistService.getWishlists();
       setWishlist(data);
     } catch (error) {
       console.error('Failed to load wishlist:', error);
