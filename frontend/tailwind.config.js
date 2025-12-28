@@ -48,6 +48,7 @@ export default {
         'md': '0.75rem',
         'lg': '1rem',
         'xl': '1.5rem',
+        '2xl': '2rem',
       },
       boxShadow: {
         'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',

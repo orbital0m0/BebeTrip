@@ -142,22 +142,26 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, onFilterChange, 
         {/* Price Range Filter */}
         <div>
           <h4 className="text-sm font-bold text-gray-900 mb-3">가격대 (1박 기준)</h4>
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              placeholder="최소"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-              className="flex-1 px-3 py-2 border-2 border-gray-200 rounded-md focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all duration-200"
-            />
-            <span className="text-gray-500">~</span>
-            <input
-              type="number"
-              placeholder="최대"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value)}
-              className="flex-1 px-3 py-2 border-2 border-gray-200 rounded-md focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all duration-200"
-            />
+          <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-center">
+            <div>
+              <input
+                type="number"
+                placeholder="최소 금액"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                className="w-full px-4 py-2.5 border-2 border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all duration-200"
+              />
+            </div>
+            <span className="text-gray-400 text-sm">~</span>
+            <div>
+              <input
+                type="number"
+                placeholder="최대 금액"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="w-full px-4 py-2.5 border-2 border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all duration-200"
+              />
+            </div>
           </div>
         </div>
 
