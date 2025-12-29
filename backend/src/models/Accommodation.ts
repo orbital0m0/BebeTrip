@@ -239,21 +239,20 @@ class AccommodationModel {
         u.profile_image as user_profile_image,
         (
           SELECT json_agg(json_build_object('id', rp.pro_id, 'name', p.name))
-          FROM review_pros rp
-          INNER JOIN pros p ON rp.pro_id = p.id
+          FROM review_pros_mapping rp
+          INNER JOIN review_pros p ON rp.pro_id = p.id
           WHERE rp.review_id = r.id
         ) as pros,
         (
           SELECT json_agg(json_build_object('id', rc.con_id, 'name', c.name))
-          FROM review_cons rc
-          INNER JOIN cons c ON rc.con_id = c.id
+          FROM review_cons_mapping rc
+          INNER JOIN review_cons c ON rc.con_id = c.id
           WHERE rc.review_id = r.id
         ) as cons,
         (
-          SELECT json_agg(json_build_object('id', ri.id, 'imageUrl', ri.image_url, 'sortOrder', ri.sort_order))
+          SELECT json_agg(json_build_object('id', ri.id, 'imageUrl', ri.image_url, 'sortOrder', ri.sort_order) ORDER BY ri.sort_order)
           FROM review_images ri
           WHERE ri.review_id = r.id
-          ORDER BY ri.sort_order
         ) as images
        FROM reviews r
        INNER JOIN users u ON r.user_id = u.id
