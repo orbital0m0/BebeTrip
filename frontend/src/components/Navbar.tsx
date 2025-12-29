@@ -36,10 +36,10 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/reviews"
+                to="/my-reviews"
                 className="text-gray-700 no-underline font-medium transition-colors duration-200 hover:text-primary-500"
               >
-                리뷰
+                내 리뷰
               </Link>
             </li>
             <li>

@@ -9,6 +9,7 @@ import AccommodationDetailPage from './pages/AccommodationDetailPage';
 import MyReviewsPage from './pages/MyReviewsPage';
 import WishlistPage from './pages/WishlistPage';
 import MyPage from './pages/MyPage';
+import GuidePage from './pages/GuidePage';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/my-reviews" element={<MyReviewsPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/my-page" element={<MyPage />} />
+            <Route path="/guide" element={<GuidePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Router>
