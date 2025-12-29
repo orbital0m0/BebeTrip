@@ -26,10 +26,10 @@ export default function Header() {
             </li>
             <li>
               <Link
-                to="/reviews"
+                to="/my-reviews"
                 className="text-gray-700 no-underline font-medium transition-colors duration-200 hover:text-primary-500"
               >
-                리뷰
+                내 리뷰
               </Link>
             </li>
             <li>
@@ -45,15 +45,16 @@ export default function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-4">
-          <Button variant="icon" size="md" title="찜">
-            ♥
-          </Button>
-          <Button variant="secondary" size="md">
-            로그인
-          </Button>
-          <Button variant="primary" size="md">
-            회원가입
-          </Button>
+          <Link to="/wishlist">
+            <Button variant="icon" size="md" title="찜">
+              ♥
+            </Button>
+          </Link>
+          <Link to="/login">
+            <Button variant="primary" size="md">
+              로그인 / 회원가입
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

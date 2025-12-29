@@ -97,13 +97,8 @@ const Navbar = () => {
                 </Button>
               </Link>
               <Link to="/login">
-                <Button variant="secondary" size="md">
-                  로그인
-                </Button>
-              </Link>
-              <Link to="/register">
                 <Button variant="primary" size="md">
-                  회원가입
+                  로그인 / 회원가입
                 </Button>
               </Link>
             </>
