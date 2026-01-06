@@ -8,6 +8,7 @@ import ImageGallery from '../components/ImageGallery';
 import AmenitiesChecklist from '../components/AmenitiesChecklist';
 import WishlistButton from '../components/WishlistButton';
 import ReviewModal from '../components/ReviewModal';
+import NearbyAttractions from '../components/NearbyAttractions';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 
@@ -62,6 +63,18 @@ interface AccommodationDetail {
   averageRating: number;
   reviewCount: number;
 }
+
+// 숙소 ID별 좌표 매핑 (임시)
+// TODO: 데이터베이스에 latitude, longitude 컬럼 추가 필요
+const getCoordinates = (accommodationId: number) => {
+  const coordinates: Record<number, { mapX: number; mapY: number }> = {
+    1: { mapX: 129.1603, mapY: 35.1586 }, // 해운대 베이비 호텔 (부산)
+    2: { mapX: 126.5601, mapY: 33.2541 }, // 제주 아일랜드 키즈 리조트 (제주)
+    3: { mapX: 128.8761, mapY: 37.7519 }, // 강릉 오션뷰 펜션 (강원)
+  };
+
+  return coordinates[accommodationId] || { mapX: 126.9780, mapY: 37.5665 }; // 기본값: 서울
+};
 
 const AccommodationDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -293,6 +306,13 @@ const AccommodationDetailPage = () => {
                 </div>
               )}
             </div>
+
+            {/* Nearby Attractions */}
+            <NearbyAttractions
+              mapX={getCoordinates(accommodation.id).mapX}
+              mapY={getCoordinates(accommodation.id).mapY}
+              radius={3000}
+            />
           </div>
 
           {/* Right Column - Room Types & Booking Info */}
