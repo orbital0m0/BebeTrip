@@ -61,7 +61,6 @@ class PublicDataService {
         MobileOS: 'ETC',
         MobileApp: 'BebeTrip',
         _type: 'json',
-        listYN: 'Y',
         arrange: 'A', // 제목순
       };
 
@@ -70,7 +69,7 @@ class PublicDataService {
       if (keyword) params.keyword = keyword;
 
       // 숙박 정보 검색 API (contentTypeId: 32=숙박)
-      const response = await axios.get(`${TOUR_API_BASE}/searchStay1`, {
+      const response = await axios.get(`${TOUR_API_BASE}/searchStay2`, {
         params: {
           ...params,
           contentTypeId: '32',
@@ -116,17 +115,15 @@ class PublicDataService {
         MobileOS: 'ETC',
         MobileApp: 'BebeTrip',
         _type: 'json',
-        listYN: 'Y',
         arrange: 'E', // 거리순
       };
 
       if (contentTypeId) params.contentTypeId = contentTypeId;
 
-      const response = await axios.get(`${TOUR_API_BASE}/locationBasedList1`, {
+      const response = await axios.get(`${TOUR_API_BASE}/locationBasedList2`, {
         params,
       });
 
-      console.log('Public Data API Response:', JSON.stringify(response.data, null, 2));
       return this.parseResponse(response.data);
     } catch (error: any) {
       console.error('Error fetching nearby tourism data:', error.message);
@@ -156,7 +153,7 @@ class PublicDataService {
         _type: 'json',
       };
 
-      const response = await axios.get(`${TOUR_API_BASE}/detailCommon1`, {
+      const response = await axios.get(`${TOUR_API_BASE}/detailCommon2`, {
         params: {
           ...params,
           contentId,
@@ -201,7 +198,7 @@ class PublicDataService {
         (params as any).areaCode = areaCode;
       }
 
-      const response = await axios.get(`${TOUR_API_BASE}/areaCode1`, {
+      const response = await axios.get(`${TOUR_API_BASE}/areaCode2`, {
         params,
       });
 
