@@ -4,7 +4,7 @@ const API_KEY = process.env.PUBLIC_DATA_API_KEY;
 const BASE_URL = process.env.PUBLIC_DATA_API_BASE_URL || 'https://apis.data.go.kr';
 
 // 한국관광공사 API 엔드포인트
-const TOUR_API_BASE = `${BASE_URL}/B551011/KorService1`;
+const TOUR_API_BASE = `${BASE_URL}/B551011/KorService2`;
 
 interface TourAPIParams {
   serviceKey: string;
