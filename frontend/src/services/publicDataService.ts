@@ -40,6 +40,8 @@ interface NearbyAllResponse {
     attractions: TourismItem[];
     culturalFacilities: TourismItem[];
     restaurants: TourismItem[];
+    shopping: TourismItem[];
+    events: TourismItem[];
   };
   error?: string;
 }
@@ -114,6 +116,8 @@ class PublicDataService {
           attractions: [],
           culturalFacilities: [],
           restaurants: [],
+          shopping: [],
+          events: [],
         },
         error: 'Failed to fetch nearby attractions',
       };

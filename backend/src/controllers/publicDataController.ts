@@ -141,7 +141,7 @@ export const getAccommodationWithNearbyAttractions = async (
     }
 
     // 병렬로 여러 관광 타입 데이터 조회
-    const [attractions, culturalFacilities, restaurants] = await Promise.all([
+    const [attractions, culturalFacilities, restaurants, shopping, events] = await Promise.all([
       // 관광지 (contentTypeId: 12)
       publicDataService.searchNearbyTourism(
         parseFloat(mapX as string),
@@ -169,6 +169,24 @@ export const getAccommodationWithNearbyAttractions = async (
         1,
         5
       ),
+      // 쇼핑 (contentTypeId: 38)
+      publicDataService.searchNearbyTourism(
+        parseFloat(mapX as string),
+        parseFloat(mapY as string),
+        parseInt(radius as string),
+        '38',
+        1,
+        5
+      ),
+      // 축제/행사 (contentTypeId: 15)
+      publicDataService.searchNearbyTourism(
+        parseFloat(mapX as string),
+        parseFloat(mapY as string),
+        parseInt(radius as string),
+        '15',
+        1,
+        5
+      ),
     ]);
 
     res.json({
@@ -177,6 +195,8 @@ export const getAccommodationWithNearbyAttractions = async (
         attractions: attractions.items || [],
         culturalFacilities: culturalFacilities.items || [],
         restaurants: restaurants.items || [],
+        shopping: shopping.items || [],
+        events: events.items || [],
       },
     });
   } catch (error) {
