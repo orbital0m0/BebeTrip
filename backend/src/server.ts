@@ -11,6 +11,7 @@ import masterDataRoutes from './routes/masterDataRoutes';
 import wishlistRoutes from './routes/wishlistRoutes';
 import reviewRoutes from './routes/reviewRoutes';
 import publicDataRoutes from './routes/publicDataRoutes';
+import kakaoLocalRoutes from './routes/kakaoLocalRoutes';
 
 dotenv.config();
 
@@ -65,6 +66,7 @@ app.use('/api/accommodations', accommodationRoutes);
 app.use('/api/wishlists', wishlistRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/public-data', publicDataRoutes);
+app.use('/api/kakao-local', kakaoLocalRoutes);
 app.use('/api', masterDataRoutes);
 
 // 404 handler

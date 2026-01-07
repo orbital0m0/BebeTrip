@@ -32,6 +32,9 @@ declare global {
       // 공공데이터포털 API
       PUBLIC_DATA_API_KEY?: string;
       PUBLIC_DATA_API_BASE_URL?: string;
+
+      // Kakao Local API
+      KAKAO_REST_API_KEY?: string;
     }
   }
 }
