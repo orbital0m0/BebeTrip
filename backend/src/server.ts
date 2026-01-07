@@ -1,5 +1,9 @@
-import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
+
+// IMPORTANT: Load environment variables BEFORE importing any modules
+dotenv.config();
+
+import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import './config/passport';
@@ -12,8 +16,6 @@ import wishlistRoutes from './routes/wishlistRoutes';
 import reviewRoutes from './routes/reviewRoutes';
 import publicDataRoutes from './routes/publicDataRoutes';
 import kakaoLocalRoutes from './routes/kakaoLocalRoutes';
-
-dotenv.config();
 
 const app: Application = express();
 const PORT = process.env.PORT || 5000;

@@ -1,7 +1,11 @@
 import axios from 'axios';
 
-const REST_API_KEY = process.env.KAKAO_REST_API_KEY;
 const BASE_URL = 'https://dapi.kakao.com';
+
+// Load API key at runtime, not at module load time
+const getRestApiKey = () => process.env.KAKAO_REST_API_KEY;
+
+console.log('🔑 Kakao REST API Key loaded:', getRestApiKey() ? `${getRestApiKey()!.substring(0, 10)}...` : 'NOT SET');
 
 interface KakaoPlace {
   id: string;
@@ -47,7 +51,8 @@ class KakaoLocalService {
     size: number = 15
   ) {
     try {
-      if (!REST_API_KEY) {
+      const apiKey = getRestApiKey();
+      if (!apiKey) {
         throw new Error('KAKAO_REST_API_KEY is not configured');
       }
 
@@ -55,7 +60,7 @@ class KakaoLocalService {
         `${BASE_URL}/v2/local/search/category.json`,
         {
           headers: {
-            Authorization: `KakaoAK ${REST_API_KEY}`,
+            Authorization: `KakaoAK ${apiKey}`,
           },
           params: {
             category_group_code: categoryGroupCode,

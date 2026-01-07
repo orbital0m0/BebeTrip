@@ -10,7 +10,7 @@ interface NearbyAttractionsProps {
   radius?: number;
 }
 
-type TabType = 'attractions' | 'culturalFacilities' | 'restaurants' | 'shopping' | 'events' | 'hospitals' | 'pharmacies';
+type TabType = 'attractions' | 'culturalFacilities' | 'restaurants' | 'events' | 'hospitals' | 'pharmacies';
 
 const NearbyAttractions = ({ mapX, mapY, radius = 3000 }: NearbyAttractionsProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('attractions');
@@ -19,7 +19,6 @@ const NearbyAttractions = ({ mapX, mapY, radius = 3000 }: NearbyAttractionsProps
     attractions: TourismItem[];
     culturalFacilities: TourismItem[];
     restaurants: TourismItem[];
-    shopping: TourismItem[];
     events: TourismItem[];
     hospitals: MedicalPlace[];
     pharmacies: MedicalPlace[];
@@ -27,7 +26,6 @@ const NearbyAttractions = ({ mapX, mapY, radius = 3000 }: NearbyAttractionsProps
     attractions: [],
     culturalFacilities: [],
     restaurants: [],
-    shopping: [],
     events: [],
     hospitals: [],
     pharmacies: [],
@@ -47,7 +45,10 @@ const NearbyAttractions = ({ mapX, mapY, radius = 3000 }: NearbyAttractionsProps
 
       if (tourismResult.success && medicalResult.success) {
         setData({
-          ...tourismResult.data,
+          attractions: tourismResult.data.attractions,
+          culturalFacilities: tourismResult.data.culturalFacilities,
+          restaurants: tourismResult.data.restaurants,
+          events: tourismResult.data.events,
           hospitals: medicalResult.data.hospitals,
           pharmacies: medicalResult.data.pharmacies,
         });
@@ -63,7 +64,6 @@ const NearbyAttractions = ({ mapX, mapY, radius = 3000 }: NearbyAttractionsProps
     { key: 'attractions' as TabType, label: '🏞️ 관광지', icon: '🏞️' },
     { key: 'culturalFacilities' as TabType, label: '🎭 문화시설', icon: '🎭' },
     { key: 'restaurants' as TabType, label: '🍽️ 음식점', icon: '🍽️' },
-    { key: 'shopping' as TabType, label: '🛍️ 쇼핑', icon: '🛍️' },
     { key: 'events' as TabType, label: '🎪 축제/행사', icon: '🎪' },
     { key: 'hospitals' as TabType, label: '🏥 병원', icon: '🏥' },
     { key: 'pharmacies' as TabType, label: '💊 약국', icon: '💊' },
